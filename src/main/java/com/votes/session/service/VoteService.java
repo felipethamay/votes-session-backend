@@ -38,7 +38,11 @@ public class VoteService {
         return voteEntity;
     }
 
-    public SessionEntity startVoting() {
+    public SessionEntity startVoting(Integer id) {
+        SessionEntity sessionEntity = sessionRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException());
+
+        LOGGER.info("Voting started successfully.");
         return null;
     }
 

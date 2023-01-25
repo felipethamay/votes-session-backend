@@ -1,27 +1,33 @@
 package com.votes.session.model;
 
+import com.votes.session.entity.AssociateEntity;
+import com.votes.session.entity.VoteEntity;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class Session {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer sessionId;
 
     private String title;
 
     private String description;
 
-    private Long duration;
-
     private LocalDateTime startSession;
 
     private LocalDateTime endSession;
 
-    private LocalDateTime creationDate;
+    @OneToMany
+    private List<VoteEntity> votes;
 
-    private LocalDateTime updateDate;
+    @OneToMany
+    private List<AssociateEntity> associates;
+
 }

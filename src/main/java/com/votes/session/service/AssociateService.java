@@ -30,9 +30,6 @@ public class AssociateService {
     }
 
     public AssociateEntity createAssociate(AssociateEntity associateEntity) {
-        associateEntity.setCreationDate(LocalDateTime.now());
-        associateEntity.setUpdateDate(LocalDateTime.now());
-
         LOGGER.info("Associate created successfully.");
         return associateRepository.save(associateEntity);
     }
@@ -40,7 +37,6 @@ public class AssociateService {
     public AssociateEntity updateAssociateById(AssociateEntity associateEntity, Integer id) {
         associateRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException());
-        associateEntity.setUpdateDate(LocalDateTime.now());
 
         LOGGER.info("Associate changed successfully.");
         return associateRepository.save(associateEntity);

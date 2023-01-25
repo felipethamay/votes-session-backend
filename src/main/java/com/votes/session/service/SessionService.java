@@ -37,9 +37,7 @@ public class SessionService {
     }
 
     public SessionEntity createSession(SessionEntity sessionEntity) {
-        sessionEntity.setCreationDate(LocalDateTime.now());
         sessionEntity.setStartSession(LocalDateTime.now());
-        sessionEntity.setUpdateDate(LocalDateTime.now());
 
         LOGGER.info("Session created successfully.");
         return sessionRepository.save(sessionEntity);
@@ -48,7 +46,6 @@ public class SessionService {
     public SessionEntity updateSessionById(SessionEntity sessionEntity, Integer id) {
         sessionRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException());
-        sessionEntity.setUpdateDate(LocalDateTime.now());
 
         LOGGER.info("Session changed successfully.");
         return sessionRepository.save(sessionEntity);

@@ -16,13 +16,13 @@ public class VoteEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer voteId;
 
     private Integer sessionId;
 
     private Integer associateId;
 
-    private String vote;
+    private Boolean vote;
 
     private LocalDateTime creationDate;
 

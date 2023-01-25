@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity(name = "Session")
 @Data
@@ -16,21 +17,19 @@ public class SessionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Integer sessionId;
 
     private String title;
 
     private String description;
 
-    private Long duration;
-
     private LocalDateTime startSession;
 
     private LocalDateTime endSession;
 
-    private LocalDateTime creationDate;
+    @OneToMany
+    private List<VoteEntity> votes;
 
-    private LocalDateTime updateDate;
-
-
+    @OneToMany
+    private List<AssociateEntity> associates;
 }
