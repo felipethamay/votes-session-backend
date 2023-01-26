@@ -27,9 +27,9 @@ public class SessionEntity {
 
     private LocalDateTime endSession;
 
-    @OneToMany
+    @ManyToMany
     private List<VoteEntity> votes;
 
-    @OneToMany
+    @ManyToMany
     private List<AssociateEntity> associates;
 }

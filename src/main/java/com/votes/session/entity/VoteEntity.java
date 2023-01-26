@@ -18,8 +18,6 @@ public class VoteEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer voteId;
 
-    private Integer sessionId;
-
     private Integer associateId;
 
     private Boolean vote;

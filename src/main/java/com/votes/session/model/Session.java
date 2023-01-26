@@ -1,20 +1,12 @@
 package com.votes.session.model;
 
-import com.votes.session.entity.AssociateEntity;
-import com.votes.session.entity.VoteEntity;
+import lombok.Data;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
 import java.util.List;
 
+@Data
 public class Session {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer sessionId;
 
     private String title;
 
@@ -24,10 +16,6 @@ public class Session {
 
     private LocalDateTime endSession;
 
-    @OneToMany
-    private List<VoteEntity> votes;
-
-    @OneToMany
-    private List<AssociateEntity> associates;
+    private List<Integer> associateIds;
 
 }

@@ -37,9 +37,8 @@ public class AssociateController {
 
     @ApiOperation(value = "Cadastrar os Associados")
     @PostMapping
-    public ResponseEntity<AssociateEntity> associateCreate(@RequestBody AssociateEntity associateCreate) {
-        AssociateEntity associateEntity = associateService.createAssociate(associateCreate);
-        return new ResponseEntity<AssociateEntity>(associateEntity, HttpStatus.OK);
+    public AssociateEntity associateCreate(@RequestBody AssociateEntity associateCreate) {
+        return associateService.createAssociate(associateCreate);
     }
 
     @ApiOperation(value = "Editar associado")
