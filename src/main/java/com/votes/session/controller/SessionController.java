@@ -2,6 +2,7 @@ package com.votes.session.controller;
 
 import com.votes.session.entity.SessionEntity;
 import com.votes.session.model.Session;
+import com.votes.session.model.VotesResponse;
 import com.votes.session.service.SessionService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +33,12 @@ public class SessionController {
     public ResponseEntity sessionFindById(@PathVariable Integer id) {
         SessionEntity sessionEntity = sessionService.sessionFindById(id);
         return ResponseEntity.ok(sessionEntity);
+    }
+
+    @ApiOperation(value = "Total de votos de uma sessão")
+    @GetMapping("/{sessionId}/result")
+    public VotesResponse totalVotesById(@PathVariable Integer sessionId) {
+        return sessionService.calculateVoting(sessionId);
     }
 
     @ApiOperation(value = "Cadastrar sessão")

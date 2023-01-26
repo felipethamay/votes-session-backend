@@ -2,6 +2,7 @@ package com.votes.session.service;
 
 import com.votes.session.entity.AssociateEntity;
 import com.votes.session.exception.EntityNotFoundException;
+import com.votes.session.exception.AssociateNotFoundException;
 import com.votes.session.repository.AssociateRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -20,7 +21,7 @@ public class AssociateService {
     public AssociateEntity findById(Integer id) {
         LOGGER.info("Associate found successfully.");
         return associateRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(() -> new AssociateNotFoundException());
     }
 
     public List<AssociateEntity> findAll() {

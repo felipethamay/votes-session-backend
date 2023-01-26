@@ -40,15 +40,11 @@ public class VoteService {
         SessionEntity sessionEntity = sessionRepository.findById(sessionId).orElseThrow(() -> new EntityNotFoundException());
         sessionEntity.getVotes().add(voteEntity);
 
-        VoteEntity vote1 = voteRepository.save(voteEntity);
+        VoteEntity voteEntities = voteRepository.save(voteEntity);
         sessionRepository.save(sessionEntity);
 
         LOGGER.info("Vote created successfully.");
-        return vote1;
-    }
-
-    public SessionEntity calculeVoting() {
-        return null;
+        return voteEntities;
     }
 
     private void uniqueVoteVerification(Integer sessionId, Integer associateId) {

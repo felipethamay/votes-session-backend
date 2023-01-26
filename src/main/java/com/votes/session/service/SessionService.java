@@ -2,8 +2,11 @@ package com.votes.session.service;
 
 import com.votes.session.entity.AssociateEntity;
 import com.votes.session.entity.SessionEntity;
+import com.votes.session.entity.VoteEntity;
+import com.votes.session.enums.VoteEnum;
 import com.votes.session.exception.*;
 import com.votes.session.model.Session;
+import com.votes.session.model.VotesResponse;
 import com.votes.session.repository.AssociateRepository;
 import com.votes.session.repository.SessionRepository;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +34,7 @@ public class SessionService {
     public SessionEntity sessionFindById(Integer id) {
         LOGGER.info("Sessions encountered successfully.");
         return sessionRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException());
+                .orElseThrow(() -> new SessionNotFound());
     }
 
     public SessionEntity createSession(Session session) {
@@ -108,7 +111,7 @@ public class SessionService {
 
     private void defaultTimeSessionVerification(LocalDateTime startSession, LocalDateTime endSession) {
         LOGGER.info("Verifyng default time...");
-        var calculatedMinute = endSession.minusHours(startSession.getHour()).minusMinutes(startSession.getMinute());
+        LocalDateTime calculatedMinute = endSession.minusHours(startSession.getHour()).minusMinutes(startSession.getMinute());
         LocalDateTime actualDateTime = LocalDateTime.now();
 
         if (calculatedMinute.getMinute() < 1) {
@@ -117,6 +120,28 @@ public class SessionService {
         if (startSession.getMinute() < actualDateTime.getMinute()) {
             throw new InitialSessionException();
         }
+    }
+
+    public VotesResponse calculateVoting(Integer sessionId) {
+        SessionEntity sessionEntities = sessionRepository.findById(sessionId)
+                .orElseThrow(() -> new EntityNotFoundException());
+
+        Integer votesYes = 0, votesNo = 0;
+
+        for (VoteEntity voteEntity : sessionEntities.getVotes()) {
+            System.out.println(voteEntity.getVote());
+            if (voteEntity.getVote().equals(true)) {
+                votesYes++;
+            } else {
+                votesNo++;
+            }
+        }
+
+        VotesResponse votesResponse = new VotesResponse();
+        votesResponse.setVotesYes(votesYes);
+        votesResponse.setVotesNo(votesNo);
+
+        return votesResponse;
     }
 
 }
