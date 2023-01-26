@@ -1,8 +1,8 @@
 package com.votes.session.service;
 
 import com.votes.session.entity.AssociateEntity;
-import com.votes.session.exception.EntityNotFoundException;
 import com.votes.session.exception.AssociateNotFoundException;
+import com.votes.session.exception.EntityNotFoundException;
 import com.votes.session.repository.AssociateRepository;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -34,9 +34,17 @@ public class AssociateService {
         return associateRepository.save(associateEntity);
     }
 
-    public AssociateEntity updateAssociateById(AssociateEntity associateEntity, Integer id) {
-        associateRepository.findById(id)
+    public AssociateEntity updateAssociateById(AssociateEntity associateEntity, Integer associateId) {
+        associateRepository.findById(associateId)
                 .orElseThrow(() -> new EntityNotFoundException());
+
+        associateEntity.setAssociateId(associateId);
+        associateEntity.setCpf(associateEntity.getCpf());
+        associateEntity.setName(associateEntity.getName());
+
+        if (!associateId.equals(associateEntity.getAssociateId())) {
+            throw new AssociateNotFoundException();
+        }
 
         LOGGER.info("Associate changed successfully.");
         return associateRepository.save(associateEntity);

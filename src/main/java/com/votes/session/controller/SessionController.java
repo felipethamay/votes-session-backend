@@ -29,9 +29,9 @@ public class SessionController {
     }
 
     @ApiOperation(value = "Pesquisar sessão pelo id")
-    @GetMapping("/{id}")
-    public ResponseEntity sessionFindById(@PathVariable Integer id) {
-        SessionEntity sessionEntity = sessionService.sessionFindById(id);
+    @GetMapping("/{sessionId}")
+    public ResponseEntity sessionFindById(@PathVariable Integer sessionId) {
+        SessionEntity sessionEntity = sessionService.sessionFindById(sessionId);
         return ResponseEntity.ok(sessionEntity);
     }
 
@@ -55,9 +55,9 @@ public class SessionController {
     }
 
     @ApiOperation(value = "Excluir sessão pelo id")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{sessionId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAssociateById(@PathVariable Integer id) {
-        sessionService.deleteSessionById(id);
+    public void deleteAssociateById(@PathVariable Integer sessionId) {
+        sessionService.deleteSessionById(sessionId);
     }
 }

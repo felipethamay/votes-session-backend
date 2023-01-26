@@ -3,7 +3,6 @@ package com.votes.session.service;
 import com.votes.session.entity.AssociateEntity;
 import com.votes.session.entity.SessionEntity;
 import com.votes.session.entity.VoteEntity;
-import com.votes.session.enums.VoteEnum;
 import com.votes.session.exception.*;
 import com.votes.session.model.Session;
 import com.votes.session.model.VotesResponse;
@@ -54,16 +53,25 @@ public class SessionService {
         return sessionRepository.save(sessionEntity);
     }
 
-    public SessionEntity updateSessionById(SessionEntity sessionEntity, Integer id) {
-        sessionRepository.findById(id)
+    public SessionEntity updateSessionById(SessionEntity sessionEntity, Integer sessionId) {
+        sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new EntityNotFoundException());
+
+        sessionEntity.setSessionId(sessionId);
+        sessionEntity.setDescription(sessionEntity.getDescription());
+        sessionEntity.setTitle(sessionEntity.getTitle());
+        sessionEntity.setStartSession(sessionEntity.getStartSession());
+
+        if (!sessionId.equals(sessionEntity.getSessionId())) {
+            throw new AssociateNotFoundException();
+        }
 
         LOGGER.info("Session changed successfully.");
         return sessionRepository.save(sessionEntity);
     }
 
-    public SessionEntity deleteSessionById(Integer id) {
-        SessionEntity sessionEntity = sessionRepository.findById(id)
+    public SessionEntity deleteSessionById(Integer sessionId) {
+        SessionEntity sessionEntity = sessionRepository.findById(sessionId)
                 .orElseThrow(() -> new EntityNotFoundException());
 
         sessionRepository.delete(sessionEntity);

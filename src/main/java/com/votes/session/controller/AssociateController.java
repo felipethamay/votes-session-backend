@@ -42,17 +42,17 @@ public class AssociateController {
     }
 
     @ApiOperation(value = "Editar associado")
-    @PutMapping("/{id}")
+    @PutMapping("/{associateId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public AssociateEntity updateAssociateById(@RequestBody AssociateEntity associateEntity, @PathVariable Integer id) {
-        return associateService.updateAssociateById(associateEntity, id);
+    public AssociateEntity updateAssociateById(@RequestBody AssociateEntity associateEntity, @PathVariable Integer associateId) {
+        return associateService.updateAssociateById(associateEntity, associateId);
     }
 
     @ApiOperation(value = "Excluir associado pelo id")
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{associateId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAssociateById(@PathVariable Integer id) {
-        associateService.deleteAssociateById(id);
+    public void deleteAssociateById(@PathVariable Integer associateId) {
+        associateService.deleteAssociateById(associateId);
     }
 
 }
