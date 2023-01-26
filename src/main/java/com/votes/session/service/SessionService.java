@@ -3,7 +3,9 @@ package com.votes.session.service;
 import com.votes.session.entity.AssociateEntity;
 import com.votes.session.entity.SessionEntity;
 import com.votes.session.exception.AssociateException;
+import com.votes.session.exception.DefaultMinuteException;
 import com.votes.session.exception.EntityNotFoundException;
+import com.votes.session.exception.InitialSessionException;
 import com.votes.session.model.Session;
 import com.votes.session.repository.AssociateRepository;
 import com.votes.session.repository.SessionRepository;
@@ -117,11 +119,15 @@ public class SessionService {
     }
 
     private void defaultTimeSessionVerification(LocalDateTime startSession, LocalDateTime endSession) {
+        var calculatedMinute = endSession.minusHours(startSession.getHour()).minusMinutes(startSession.getMinute());
+        LocalDateTime actualDateTime = LocalDateTime.now();
 
-        Date d = new Date();
-        System.out.println(d);
-        System.out.println(Timestamp.valueOf(startSession));
-        System.out.println(Timestamp.valueOf(endSession));
+        if (calculatedMinute.getMinute() < 1) {
+            throw new DefaultMinuteException();
+        }
+        if (startSession.getMinute() < actualDateTime.getMinute()) {
+            throw new InitialSessionException();
+        }
 
 
     }
