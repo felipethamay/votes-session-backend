@@ -2,8 +2,10 @@ package com.votes.session.service;
 
 import com.votes.session.entity.SessionEntity;
 import com.votes.session.entity.VoteEntity;
-import com.votes.session.exception.AssociateException;
 import com.votes.session.exception.EntityNotFoundException;
+import com.votes.session.exception.VoteAgainException;
+import com.votes.session.exception.VoteNotTimeException;
+import com.votes.session.exception.VotePastTimeException;
 import com.votes.session.model.Vote;
 import com.votes.session.repository.SessionRepository;
 import com.votes.session.repository.VoteRepository;
@@ -38,7 +40,6 @@ public class VoteService {
         SessionEntity sessionEntity = sessionRepository.findById(sessionId).orElseThrow(() -> new EntityNotFoundException());
         sessionEntity.getVotes().add(voteEntity);
 
-//        voteEntity.setSessionId(sessionId);
         VoteEntity vote1 = voteRepository.save(voteEntity);
         sessionRepository.save(sessionEntity);
 
@@ -51,20 +52,19 @@ public class VoteService {
     }
 
     private void uniqueVoteVerification(Integer sessionId, Integer associateId) {
-
+        LOGGER.info("Unique vote verification.");
         SessionEntity sessionEntity = sessionRepository.findById(sessionId).orElseThrow(
                 () -> new EntityNotFoundException());
 
         for (VoteEntity voteEntity : sessionEntity.getVotes()) {
             if (associateId.equals(voteEntity.getAssociateId())) {
-                //Erro: associado já votou, não pode votar duas vezes na mesma sessão
-                throw new AssociateException();
+                throw new VoteAgainException();
             }
         }
     }
 
     private void timeSessionVerification(Integer sessionId, Integer associateId) {
-
+        LOGGER.info("Time session verification.");
         LocalDateTime actualDateTime = LocalDateTime.now();
         System.out.println(actualDateTime);
 
@@ -73,13 +73,11 @@ public class VoteService {
         System.out.println(sessionEntity.getStartSession());
 
         if (actualDateTime.compareTo(sessionEntity.getStartSession()) == -1) {
-            // Ainda não chegou a hora de votar
-            throw new AssociateException();
+            throw new VoteNotTimeException();
         }
 
         if (actualDateTime.compareTo(sessionEntity.getEndSession()) == 1) {
-            // já passou a hora de votar
-            throw new AssociateException();
+            throw new VotePastTimeException();
         }
     }
 }
